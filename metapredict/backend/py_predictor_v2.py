@@ -79,6 +79,10 @@ class Predictor():
             if torch.cuda.is_available():
                 device_string = f"cuda:{gpuid}"
                 device = torch.device(device_string)
+            elif torch.backends.mps.is_available() and torch.backends.mps.is_built():
+                # Use MPS if available on ARM-based MacBooks
+                device_string = "mps"
+                device = torch.device(device_string)
             else:
                 device_string = "cpu"
                 device = torch.device(device_string)
